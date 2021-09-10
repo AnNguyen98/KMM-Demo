@@ -14,7 +14,16 @@ struct TextFieldRounded: View {
     var text: Binding<String>
     var isScureField: Bool = false
     
-    @State private var isScureFieldState: Bool = true
+    @State private var isScureFieldState: Bool = false
+    
+    init(placeholder: String = "", iconName: String, text: Binding<String>, isScureField: Bool = false) {
+        self.placeholder = placeholder
+        self.iconName = iconName
+        self.isScureField = isScureField
+        self.text = text
+        self.isScureFieldState = isScureField
+    }
+    
     
     var body: some View {
         HStack {

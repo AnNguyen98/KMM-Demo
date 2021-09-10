@@ -10,18 +10,18 @@ import SwiftUI
 
 struct TextValidate: View {
     var content: String = ""
-    var isValidate: Binding<Bool> = .constant(false)
+    var isValidate: Bool = false
     
     var body: some View {
         Label(
             title: {
                 Text(content)
-                    .strikethrough(!isValidate.wrappedValue)
+                    .strikethrough(!isValidate)
             },
             icon: { Image(systemName: "checkmark.circle") }
         )
         .font(.caption2.italic())
-        .foregroundColor(isValidate.wrappedValue ? .green: .red)
+        .foregroundColor(isValidate ? .green: .red)
         .padding(.leading, 4)
     }
 }

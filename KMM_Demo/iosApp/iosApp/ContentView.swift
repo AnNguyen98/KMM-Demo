@@ -1,11 +1,10 @@
 import SwiftUI
+import shared
 
 struct ContentView: View {
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @StateObject private var viewModel = ContentViewModel()
     @FocusState private var focusState: FocusStateField?
     
-//    var result = Validator().validateEmailAddress(email: "theannguyen98@gmail.com")
     enum FocusStateField {
         case email
         case password
@@ -22,20 +21,37 @@ struct ContentView: View {
                     .padding(.bottom, 30)
                     
                 
-                TextFieldRounded(placeholder: "Email", iconName: "envelope.fill", text: $email)
+                TextFieldRounded(placeholder: "Email", iconName: "envelope.fill", text: $viewModel.email)
                     .submitLabel(.next)
                     .focused($focusState, equals: .email)
-                TextValidate(content: "Validate email address!", isValidate: .constant(false))
+                TextValidate(
+                    content: "Validate email address!", isValidate: viewModel.isValidEmail
+                )
                 
-                TextFieldRounded(placeholder: "Password", iconName: "lock.fill", text: $password, isScureField: true)
+                TextFieldRounded(placeholder: "Password", iconName: "lock.fill", text: $viewModel.password, isScureField: true)
                     .submitLabel(.done)
                     .focused($focusState, equals: .password)
                     .padding(.top, 10)
-                TextValidate(content: "The string must contain at least 1 numeric character!", isValidate: .constant(true))
-                TextValidate(content: "The string must contain at least 1 lowercase alphabetical character!", isValidate: .constant(false))
-                TextValidate(content: "The string must contain at least 1 uppercase alphabetical character!", isValidate: .constant(false))
-                TextValidate(content: "The string must contain at least one special character, but we are escaping reserved RegEx characters to avoid conflict!", isValidate: .constant(false))
-                TextValidate(content: "The string must be eight characters or longer", isValidate: .constant(false))
+                TextValidate(
+                    content: "The string must contain at least 1 numeric character!",
+                    isValidate: viewModel.validsStatePassword.contains(.onenumeric)
+                )
+                TextValidate(
+                    content: "The string must contain at least 1 lowercase alphabetical character!",
+                    isValidate: viewModel.validsStatePassword.contains(.onelowercase)
+                )
+                TextValidate(
+                    content: "The string must contain at least 1 uppercase alphabetical character!",
+                    isValidate: viewModel.validsStatePassword.contains(.oneuppercase)
+                )
+                TextValidate(
+                    content: "The string must contain at least one special character",
+                    isValidate: viewModel.validsStatePassword.contains(.onespecial)
+                )
+                TextValidate(
+                    content: "The string must be eight characters or longer",
+                    isValidate: viewModel.validsStatePassword.contains(.eightcharactersnospace)
+                )
                 
                 Button(action: {
                     dismissKeyboard()
@@ -51,13 +67,14 @@ struct ContentView: View {
                         .foregroundColor(.green)
                 )
                 .padding(EdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 0))
-                .disabled(false)
+                .disabled(!viewModel.isValidInfo)
+                .opacity(viewModel.isValidInfo ? 1: 0.6)
             }
 //            .padding(EdgeInsets(top: 40, leading: 13, bottom: 40, trailing: 13))
 //            .overlay(
 //                RoundedRectangle(cornerRadius: 15)
 //                    .stroke(lineWidth: 1)
-//            )
+//
             .shadow(color: .gray, radius: 5, x: 1, y: 3)
             
         }

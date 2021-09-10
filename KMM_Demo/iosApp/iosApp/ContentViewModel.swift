@@ -6,9 +6,26 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import Foundation
-//import shared
+import Combine
+import shared
 
-final class ContentViewModel {
+extension ValidCasePasswords {
     
+}
+
+final class ContentViewModel: ObservableObject {
+    @Published var email: String = ""
+    @Published var password: String = ""
+    
+    var isValidEmail: Bool {
+        Validators().validateEmailAddress(email: email)
+    }
+    
+    var validsStatePassword: [ValidCasePasswords] {
+        Validators().validatePassword(password: password)
+    }
+    
+    var isValidInfo: Bool {
+        isValidEmail && validsStatePassword.count == ValidCasePasswords.values().size
+    }
 }
