@@ -8,7 +8,7 @@ enum class ValidCasePasswords {
         return when (this) {
             OneLowerCase -> Regex("^(?=.*[a-z])")       //The string must contain at least 1 lowercase alphabetical character
             OneUppercase -> Regex("^(?=.*[A-Z])")       //The string must contain at least 1 uppercase alphabetical character
-            OneNumeric -> Regex("^(?=.*[0-9])")         //The string must contain at least 1 numeric character
+            OneNumeric -> Regex("(?=.*[0-9])")         //The string must contain at least 1 numeric character
             OneSpecial -> Regex("^(?=.*[!@#\$%^&*])")   //The string must contain at least one special character
             EightCharacters -> Regex("^(?=.{8,})")      //The string must be eight characters or longer
         }
