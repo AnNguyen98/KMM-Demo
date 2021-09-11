@@ -1,7 +1,6 @@
 package com.example.demo.model
 
 import kotlinx.datetime.*
-import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,14 +18,6 @@ class Movie {
     private var posterPath: String = ""
     @SerialName("release_date")
     private var releaseDateString: String = ""
-    fun releaseDate(): String {
-        return try {
-            val dateTime = LocalDate.parse(releaseDateString)
-            "${dateTime.month.name}, ${dateTime.dayOfMonth}-${dateTime.year}"
-        } catch (e: Exception) {
-            ""
-        }
-    }
     @SerialName("vote_count")
     var voteCount: Int = 0
     @SerialName("vote_average")
@@ -43,6 +34,15 @@ class Movie {
     companion object {
         private const val BASE_IMAGE3_URL: String = "https://image.tmdb.org/t/p/w300"
         private const val BASE_IMAGE5_URL: String = "https://image.tmdb.org/t/p/w500"
+    }
+
+    fun releaseDate(): String {
+        return try {
+            val dateTime = LocalDate.parse(releaseDateString)
+            "${dateTime.month.name}, ${dateTime.dayOfMonth}-${dateTime.year}"
+        } catch (e: Exception) {
+            ""
+        }
     }
 }
 
