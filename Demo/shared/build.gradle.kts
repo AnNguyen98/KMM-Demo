@@ -3,7 +3,9 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("io.realm.kotlin") version "0.5.0"
+    id("io.realm.kotlin") version "0.4.1"
+    id("kotlin-android-extensions")
+    kotlin("plugin.serialization")
 }
 
 kotlin {
@@ -27,10 +29,18 @@ kotlin {
             }
         }
     }
+
+    val ktorVersion = "1.6.1"
+
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.realm.kotlin:library:0.5.0")
+                implementation("io.realm.kotlin:library:0.4.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-native-mt")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
+                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.2.1")
             }
         }
         val commonTest by getting {
@@ -39,14 +49,22 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-android:$ktorVersion")
+            }
+        }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
             }
         }
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:$ktorVersion")
+            }
+        }
         val iosTest by getting
     }
 }

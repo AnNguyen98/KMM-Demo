@@ -9,13 +9,10 @@
 import Combine
 import shared
 
-extension ValidCasePasswords {
-    
-}
-
 final class ContentViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
+    @Published var isLoading: Bool = false
     
     var isValidEmail: Bool {
         Validators().validateEmailAddress(email: email)
@@ -27,5 +24,24 @@ final class ContentViewModel: ObservableObject {
     
     var isValidInfo: Bool {
         isValidEmail && validsStatePassword.count == ValidCasePasswords.values().size
+    }
+    
+    var currentUser: User {
+        let user: User = User()
+        user.email = email
+        user.password = password
+        return user
+    }
+    
+    func saveUserInfo() {
+        RealmDatabase.shared.addUser(user: currentUser)
+    }
+    
+    func clearUser() {
+        RealmDatabase.shared.deleteAll()
+    }
+    
+    func getUser() -> User? {
+        RealmDatabase.shared.getUser()
     }
 }

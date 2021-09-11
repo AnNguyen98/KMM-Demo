@@ -1,4 +1,4 @@
-package com.example.demo
+package com.example.demo.untils
 
 enum class ValidCasePasswords {
     OneLowerCase, OneUppercase, OneNumeric, OneSpecial, EightCharactersNoSpace;
