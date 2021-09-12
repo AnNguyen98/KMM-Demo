@@ -30,7 +30,7 @@ final class HomeViewModel: ObservableObject {
     func getMovies(page: Int = 1) {
         isLoading = true
         print("DEBUG - Getting movies at page \(page)")
-        MovesRepository().getMovies(page: Int32(page)) { response, error in
+        MoviesRepository().getMovies(page: Int32(page)) { response, error in
             self.isLoading = false
             if let res = response {
                 if res.page > 1 {
